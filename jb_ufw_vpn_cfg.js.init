@@ -1,0 +1,67 @@
+/**
+ * Popis json konfigurace OpenVPN serveru a klientů pro UFW (Uncomplicated Firewall)
+ * Toto vytváří blok v UFW before
+ * - POZOR konfigurační JSON popis blok musí být na konci soubor aby fugovalo parse z pythonu !!! python odřeže vše po komentu `BOF JSON CFG` včetně, tento koment musí zůstat jak je vč mezer !!
+ * - PROTO TAKY MUSÍ být vše zapsáno stylem `"property": "value"` a ne `property: "value"` jinak to nebude fungovat s JSON.parse
+ * 
+ * Takto se nám bude v IDE JS editoru lépe vyhledávat a editovat, protože to bude mít typy a popisy, vč kontroly povinných vlastností ;)
+ * 
+ * 
+ * @typedef {Object} jb_ufw__vpn_row
+ * @property {string} clientName - naše označení klienta - propisuje se do komentáře v UFW pravidle
+ * @property {string} clientIP - IP adresa klienta, který se připojuje k OpenVPN serveru
+ * @property {string} created - Datum vytvoření pravidla, formát YYYY-MM-DD, např. "2024-01-01" - pokud není vyplněno, tak se použije aktuální datum
+ * @property {number} type - Typ VPN klienta  
+ * - **0** = Vypnuto omezení (No Limit) - bežná provoz klienta
+ * - **1** = BAN (Ban) - klient je zcela zakázán a nemůže se připojit k VPN serveru ani komunikovat s jinými klienty nebo sítí
+ * - **2** = Izolace (Isolation) - klient může komunikovat pouze s VPN serverem a ne s ostatními klienty
+ * @property {string} [banTo] - Datum do kdy je klient zakázán, pokud je typ 1 (BAN), formát YYYY-MM-DD, např. "2026-01-01" - pokud není vyplněno, tak se bere jako neomezený BAN
+ * @property {string} [comment] - Komentář k pravidlu, pokud není vyplněno, tak se použije `clientName` jako komentář
+ * 
+ * 
+ * 
+ * @typedef {Object} jb_ufw_vpn_cfg
+ * @property {string} server_name - Název OpenVPN serveru, který se propisuje do komentáře v UFW pravidle, k tomuto se přidá i nulovaná IP s maskou  
+ * např '# BOF OpenVPN JB Config - <server_name> <ip>/<mask>' kde ip např 192.168.1.15 (ip serveru) tady bude jako 192.168.1.0
+ * @property {string} server_ip - IP adresa serveru OpenVPN - toto je skutečná IP serveru, tzn nesmí končit nulou
+ * @property {number} server_mask - maska serveru OpenVPN, např. 24 pro masku, tzn co je za lomítkem, např. "/24"
+ * @property {jb_ufw__vpn_row[]} clients - Pole klientů, kteří jsou připojeni k OpenVPN serveru
+ * 
+ */
+/** @type {jb_ufw_vpn_cfg} */
+let jb_ufw_vpn_cfg = // POZOR je nudné property i stringy psát s uvozovkami, jinak nebude fungovat JSON.parse !!!
+// BOF JSON CFG
+{
+    "server_name": "openvpn-jb",
+    "server_ip": "10.8.0.1",
+    "server_mask": 23,
+    "clients": [
+        {
+            "clientName": "Pavel Petr",
+            "clientIP": "10.8.0.12",
+            "created": "2025-08-01 11:10:20",
+            "type": 2
+        },
+        {
+            "clientName": "Karel Nový",
+            "clientIP": "10.8.0.8",
+            "created": "2025-08-01 11:10:20",
+            "type": 2
+        },
+        {
+            "clientName": "Jan Nový",
+            "clientIP": "10.8.0.28",
+            "created": "2025-08-01 11:10:20",
+            "type": 0
+        },
+        {
+            "clientName": "Jirka Ukončený",
+            "clientIP": "10.8.0.27",
+            "created": "2025-08-01 11:10:20",
+            "type": 1,
+            "banTo": "2026-01-01",
+            "comment": "Jirka Ukončený - období ochrany vyřazení IP z provozu - cooldownBan"
+        }
+    ]
+}
+  
