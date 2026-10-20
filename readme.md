@@ -11,6 +11,7 @@
 
 > **Poznámka k původnímu chování:** regenerace bloku, záloha a `ufw reload` při
 > každém ručním spuštění jsou záměrné. Nejde o chybu původního skriptu.
+
 Automatizovaný skript pro generování a správu **UFW (Uncomplicated Firewall) pravidel** pro OpenVPN server, včetně řízení přístupu jednotlivých klientů, izolace i trvalého nebo časového zákazu.
 **Ideální pro prostředí, kde chcete mít správu přístupu pod kontrolou, včetně auditu a automatizace.**
 
