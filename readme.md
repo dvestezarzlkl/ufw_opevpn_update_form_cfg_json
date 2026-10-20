@@ -1,5 +1,16 @@
 # OpenVPN UFW Rule Generator
 
+> **DEPRECATED / LEGACY (2026-10-20).** Tento samostatný skript je nahrazován
+> projektem [Dvestezar Terminal Manager (`sys_apps`)](https://github.com/dvestezarzlkl/Dvestezar-Terminal-Manager-Debian-Based),
+> konkrétně připravovaným **SysApps Firewall Managerem** a synchronizací přes SysApps Hub.
+> Nové řešení bude pravidelně vyhodnocovat pravidla včetně expirace cooldown BAN,
+> ale bude zapisovat konfiguraci a aplikovat UFW pouze při skutečné změně.
+> **Náhrada zatím není dokončená ani provozně převzatá.** Do ověřeného přechodu
+> ponechte původní skript funkční na strojích, kde se ještě používá.
+> Po převzetí konfigurace a vypnutí původních volání lze tento repozitář archivovat.
+
+> **Poznámka k původnímu chování:** regenerace bloku, záloha a `ufw reload` při
+> každém ručním spuštění jsou záměrné. Nejde o chybu původního skriptu.
 Automatizovaný skript pro generování a správu **UFW (Uncomplicated Firewall) pravidel** pro OpenVPN server, včetně řízení přístupu jednotlivých klientů, izolace i trvalého nebo časového zákazu.
 **Ideální pro prostředí, kde chcete mít správu přístupu pod kontrolou, včetně auditu a automatizace.**
 
