@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# DEPRECATED / LEGACY (2026-10-20): manual OpenVPN/UFW rule generator.
+# Successor: Dvestezar Terminal Manager (sys_apps), SysApps Firewall Manager.
+# The replacement is under development; keep this script operational until
+# its rules and scheduled invocations have been safely migrated and tested.
+# Regeneration, backup and UFW reload on each manual invocation are intentional.
 """
 Script for updating UFW before.rules with OpenVPN client restrictions based on configuration in JSON format.
 Author: Jan Zedník / dvestezar
